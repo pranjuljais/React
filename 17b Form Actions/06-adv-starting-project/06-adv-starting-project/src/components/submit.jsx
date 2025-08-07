@@ -1,7 +1,7 @@
 import { useFormStatus } from "react-dom";
 
 export default function Submit() {
-  const { pending } = useFormStatus();
+  const { pending, data } = useFormStatus();
 
   return (
     <p className="actions">

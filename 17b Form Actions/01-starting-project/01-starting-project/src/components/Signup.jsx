@@ -13,6 +13,7 @@ function signUpAction(prevFormState, formData) {
   const acquisitionChannel = formData.getAll("acquisition");
   const firstName = formData.get("first-name");
   const lastName = formData.get("last-name");
+  const terms = formData.get("terms");
 
   let errors = [];
   if (!isEmail(email)) {
@@ -27,6 +28,12 @@ function signUpAction(prevFormState, formData) {
   if (!isNotEmpty(role)) {
     errors.push("Invalid role address.");
   }
+  if (!terms) {
+    errors.push("You must agree the terms and conditions");
+  }
+  if (!firstName || !lastName) {
+    errors.push("You must provide both your first and last name.");
+  }
 
   if (acquisitionChannel.length === 0) {
     errors.push("Please Select atleast one axquisition channel.");
@@ -39,10 +46,11 @@ function signUpAction(prevFormState, formData) {
         email,
         password,
         confirmpassword,
-        role,
-        acquisitionChannel,
         firstName,
         lastName,
+        role,
+        acquisitionChannel,
+        terms,
       },
     };
   }
@@ -120,7 +128,7 @@ export default function Signup() {
         <select
           id="role"
           name="role"
-          defaultValue={formState.enteredValues?.role}
+          defaultChecked={formState.enteredValues?.role}
         >
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
@@ -138,7 +146,7 @@ export default function Signup() {
             id="google"
             name="acquisition"
             value="google"
-            defaultValue={formState.enteredValues?.acquisitionChannel.includes(
+            defaultChecked={formState.enteredValues?.acquisitionChannel.includes(
               "google"
             )}
           />
@@ -151,7 +159,7 @@ export default function Signup() {
             id="friend"
             name="acquisition"
             value="friend"
-            defaultValue={formState.enteredValues?.acquisitionChannel.includes(
+            defaultChecked={formState.enteredValues?.acquisitionChannel.includes(
               "friend"
             )}
           />
@@ -159,15 +167,28 @@ export default function Signup() {
         </div>
 
         <div className="control">
-          <input type="checkbox" id="other" name="acquisition" value="other" />
+          <input
+            type="checkbox"
+            id="other"
+            name="acquisition"
+            value="other"
+            defaultChecked={formState.enteredValues?.acquisitionChannel.includes(
+              "other"
+            )}
+          />
           <label htmlFor="other">Other</label>
         </div>
       </fieldset>
 
       <div className="control">
         <label htmlFor="terms-and-conditions">
-          <input type="checkbox" id="terms-and-conditions" name="terms" />I
-          agree to the terms and conditions
+          <input
+            type="checkbox"
+            id="terms-and-conditions"
+            name="terms"
+            defaultValue={formState.enteredValues?.terms}
+          />
+          I agree to the terms and conditions
         </label>
       </div>
       {formState.errors && (
