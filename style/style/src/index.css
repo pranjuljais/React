@@ -1,0 +1,7 @@
+@import "tailwindcss";
+body {
+  background-color: #ffaa00;
+  background-image: url();
+  background-attachment: fixed;
+  background-size: cover;
+}
